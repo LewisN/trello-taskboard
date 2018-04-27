@@ -1,0 +1,250 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+/* Lists */
+html, body {
+    font-family: helvetica;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    background-color: #164984;
+}
+
+header {
+    padding: 16px;
+}
+
+img.logo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 40px;
+    width: 120px;
+}
+
+h1 {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-transform: capitalize;
+}
+
+#dev-lists {
+    text-align: center;
+    display: flex;
+    overflow-x: scroll;
+    padding: 0 0 20px 0;
+}
+
+.list {
+    background: #ecedef;
+    color: #4d4d4d;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 0 8px;
+    text-align: left;
+    vertical-align: top;
+    min-width: 270px;
+    width: 270px;
+}
+
+.list__head {
+    padding: 16px 8px 8px 8px;
+    color: #4d4d4d;
+    border-bottom: none;
+    background: #ecedef;
+    border-radius: 3px 3px 0 0;
+}
+
+.list__avatar {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+    background-color: white;
+    background-position: center;
+    background-size: 35px;
+    background-repeat: no-repeat;    
+    background-image: url('imgs/user.png');
+}
+
+.list__avatar img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 4px;
+}
+
+.list__name {
+    font-weight: bold;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.list__username {
+    float: right;
+    margin-top: 1px;
+    font-size: 12px;
+}
+
+.list__body {
+    padding: 8px;
+    overflow-y: scroll;
+    max-height: 82vh;
+}
+
+.list__card {
+    box-sizing: border-box;
+    padding: 16px 8px;
+    color: black;
+    max-width: 300px;
+    min-height: 20px;
+    margin: 8px auto;
+    overflow: hidden;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.list__card__title {
+    font-size: 14px;
+    line-height: 17px;
+    clear: both;
+    font-weight: 400;
+    margin: 0 0 4px;
+    overflow: hidden;
+    word-wrap: break-word;
+    color: #4d4d4d;
+}
+
+.list__card__title a {
+    text-decoration: none;
+    color: #444;
+}
+
+.list__card__title a:hover {
+    text-decoration: underline;
+}
+
+.list__card__desc {
+    display: none;
+}
+
+.list__card-count {
+    max-width: 280px;
+    margin: 0 auto;
+    padding: 8px;
+}
+
+.list__card-count > span {
+    vertical-align: middle;
+}
+
+.list__card-count > em {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.list__card__board {
+    text-align: left;
+    font-size: 12px;
+    margin: 8px 0 0 0;
+}
+
+.list__card__board a {
+    color: #444;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#change-board {
+    display: inline-block;
+    margin-left: 15px;
+    cursor: pointer;
+    vertical-align: middle;
+    font-size: 15px;
+    height: 35px;
+    text-transform: capitalize;
+}
+
+#loader {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#loader img {
+    display: inline-block;
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    height: 60px;
+    margin-top: -50px;
+}
+
+#loader.hidden {
+    display: none;
+}
+
+@media screen and (max-width: 767px) {
+    h1 {
+        display: block;
+        margin: 20px 0 0 0;
+    }
+}
