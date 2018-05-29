@@ -43,29 +43,114 @@
 
     var usernames,
         nameMap = {
-            'lewisuc': 'Lewis',
-            'rebeccauc': 'Bec',
-            'scottuc': 'Scott',
-            'damianuc': 'Damian',
-            'bilaluc': 'Bilal',
-            'daviduc': 'David',
-            'joshuc': 'Josh',
-            'ryanuc': 'Ryan',
-            'bethuc': 'Beth',
-            'emilyuc': 'Emily',
-            'samuc': 'Sam G',
-            'robertuc': 'Rob',
-            'chrisuc': 'Chris R',
-            'oliviauc': 'Olivia',
-            'sambuc': 'Sam B',
-            'hazeluc': 'Hazel',
-            'carrieuc': 'Carrie',
-            'danuc': 'Dan',
-            'chriswuc': 'Chris W',
-            'sarahuc': 'Sarah',
-            'ammouc': 'Ammo',
-            'alexuc': 'Alex',
-            'adamuc': 'Adam'
+            'lewisuc': {
+              name: 'Lewis',
+              discipline: 'Development',
+            },
+            'rebeccauc': {
+              name: 'Bec',
+              discipline: 'Development',
+            },
+            'scottuc': {
+              name: 'Scott',
+              discipline: 'Development',
+            },
+            'damianuc': {
+              name: 'Damian',
+              discipline: 'Development',
+            },
+            'bilaluc': {
+              name: 'Bilal',
+              discipline: 'Development',
+            },
+            'daviduc': {
+              name: 'David',
+              discipline: 'Boss Man',
+            },
+            'joshuc': {
+              name: 'Josh',
+              discipline: 'Development',
+            },
+            'ryanuc': {
+              name: 'Ryan',
+              discipline: 'Director',
+            },
+            'bethuc': {
+              name: 'Beth',
+              discipline: 'Operations',
+            },
+            'emilyuc': {
+              name: 'Emily',
+              discipline: 'Account Management',
+            },
+            'elizabyrne1': {
+              name: 'Eliza',
+              discipline: 'Account Management',
+            },
+            'samuc': {
+              name: 'Sam G',
+              discipline: 'Analytics',
+            },
+            'maxuc': {
+              name: 'Max',
+              discipline: 'QA',
+            },
+            'robertuc': {
+              name: 'Rob',
+              discipline: 'Analytics',
+            },
+            'chrisuc': {
+              name: 'Chris R',
+              discipline: 'Research',
+            },
+            'oliviauc': {
+              name: 'Olivia',
+              discipline: 'Research',
+            },
+            'sambuc': {
+              name: 'Sam B',
+              discipline: 'Research',
+            },
+            'hazeluc': {
+              name: 'Hazel',
+              discipline: 'Research',
+            },
+            'carrieuc': {
+              name: 'Carrie',
+              discipline: 'Strategy',
+            },
+            'danuc': {
+              name: 'Dan',
+              discipline: 'Strategy',
+            },
+            'chriswuc': {
+              name: 'Chris W',
+              discipline: 'Analytics',
+            },
+            'sarahuc': {
+              name: 'Sarah',
+              discipline: 'Development',
+            },
+            'amrdeepsingh': {
+              name: 'Ammo',
+              discipline: 'Strategy',
+            },
+            'alexptuc': {
+              name: 'Alex',
+              discipline: 'Account Management',
+            },
+            'adamuc': {
+              name: 'Adam',
+              discipline: 'Analytics',
+            },
+            'prestonuc': {
+              name: 'Preston',
+              discipline: 'User Test',
+            },
+            'fayeuc': {
+              name: 'Faye',
+              discipline: 'Design',
+            },
         },
         boardNameMap = {},
         cachedData = {
@@ -119,7 +204,8 @@
 
     function List(user) {
         this.user = user;
-        var name = nameMap[user];
+        var name = nameMap[user].name;
+        var discipline = nameMap[user].discipline;
 
         // Create elements
         var list = document.createElement('div');
@@ -135,7 +221,10 @@
             // List head
             var html = '<div class="list__head">';
             html += '<div class="list__avatar">' + avatar + '</div>';
+            html += '<div class="list__nameBlock">';
             html += '<div class="list__name">' + name + '</div>';
+            html += '<div class="list__discipline">' + discipline + '</div>';
+            html += '</div>';
             html += '<div class="list__username">' + user + '</div>';
             html += '</div>';
         
@@ -254,7 +343,7 @@
 
 
     function createNewList(user) {
-        var name = nameMap[user];
+        var name = nameMap[user].name;
 
         // Create a list component for this user
         var list = new List(user);
@@ -299,15 +388,20 @@
     --------------------------------- */
     var teams = (function() {
         var obj = {
-            'Team Nemo': ['damianuc', 'joshuc', 'chrisuc', 'robertuc', 'emilyuc', 'daviduc'],
-            'Team Avengers': ['lewisuc', 'sarahuc', 'rebeccauc', 'hazeluc', 'oliviauc', 'ryanuc', 'danuc', 'chriswuc'],
-            'Team Skywalker': ['scottuc', 'bilaluc', 'sambuc', 'samuc', 'carrieuc'],
-            'Development': ['damianuc', 'joshuc', 'lewisuc', 'sarahuc', 'rebeccauc', 'scottuc', 'bilaluc'], 
-            'Strategy': ['daviduc', 'ryanuc', 'carrieuc'], // To add: Ammo
-            'Research': ['chrisuc', 'hazeluc', 'oliviauc', 'sambuc', 'carrieuc'],
-            'Analytics': ['samuc', 'robertuc', 'ryanuc', 'danuc', 'chriswuc'], // To add: Adam
-            'Account Management': ['emilyuc'], // To add: Alex
-            'Operations': ['bethuc'],
+            'Team Nemo': ['amrdeepsingh', 'emilyuc', 'chrisuc', 'damianuc', 'joshuc', 'robertuc'],
+            'Team Avengers': ['danuc', 'elizabyrne1', 'hazeluc', 'oliviauc', 'sarahuc', 'rebeccauc', 'chriswuc'],
+            'Team Skywalker': ['carrieuc', 'alexptuc', 'sambuc', 'scottuc', 'bilaluc', 'samuc'],
+            'Strategy 👨‍💼👩‍💼': ['ryanuc', 'amrdeepsingh', 'carrieuc', 'danuc'],
+            'Account Management 🗣️': ['emilyuc', 'alexptuc', 'elizabyrne1'],
+            'Research 📖': ['chrisuc', 'hazeluc', 'oliviauc', 'sambuc', 'carrieuc'],
+            'Development 👩‍💻👨‍💻': ['lewisuc', 'damianuc', 'joshuc', 'rebeccauc', 'sarahuc', 'scottuc', 'bilaluc'], 
+            'QA 🙅‍♂️': ['maxuc'], 
+            'Analytics 🕵️‍‍': ['adamuc', 'samuc', 'robertuc', 'chriswuc'],
+            'Operations 👮‍♀️': ['bethuc'],
+            'Design 👩‍🎨': ['fayeuc'], 
+            'Directors 👴‍': ['daviduc', 'ryanuc'],
+            'User Test 🤷': ['prestonuc'],
+            'Podless 😢': ['daviduc', 'ryanuc', 'adamuc', 'lewisuc', 'bethuc', 'maxuc', 'fayeuc'],
         };
     
         obj.All = (function() {
