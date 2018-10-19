@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Conversion Taskboards</title>
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.chunks.main.css %>">
+  </head>
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    
+    <header>
+      <div class="logo"></div>
+      <h1>User Conversion Taskboard</h1>
+    </header>
+
+    <div class="loader--bg hidden">
+      <div class="loader"></div>
+    </div>
+
+    <section>
+      <div id="dev-lists"></div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- end jQuery-->
+    <!-- Trello api -->
+    <script src="https://api.trello.com/1/client.js?key=64c076f62224b2d89e8931f905223379"></script>
+    <!-- end Trello api -->
+    <!-- app -->
+    <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
+    <!-- end app -->
+  </body>
+</html>

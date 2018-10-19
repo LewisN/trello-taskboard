@@ -1,0 +1,134 @@
+{
+  "daviduc": {
+    "name": "David",
+    "discipline": "Boss Man"
+  },
+  "markleach21": {
+    "name": "Mark",
+    "discipline": "M.D."
+  },
+  "ryanuc": {
+    "name": "Ryan",
+    "discipline": "Director"
+  },
+  "carrieuc": {
+    "name": "Carrie",
+    "discipline": "Strategy"
+  },
+  "danuc": {
+    "name": "Dan",
+    "discipline": "Strategy"
+  },
+  "bethuc": {
+    "name": "Beth",
+    "discipline": "Operations"
+  },
+  "emilyuc": {
+    "name": "Emily",
+    "discipline": "Account Management"
+  },
+  "elizabyrne1": {
+    "name": "Eliza",
+    "discipline": "Account Management"
+  },
+  "alexptuc": {
+    "name": "Alex",
+    "discipline": "Account Management"
+  },
+  "lewisuc": {
+    "name": "Lewis",
+    "discipline": "Development"
+  },
+  "rebeccauc": {
+    "name": "Bec",
+    "discipline": "Development"
+  },
+  "scottuc": {
+    "name": "Scott",
+    "discipline": "Development"
+  },
+  "damianuc": {
+    "name": "Damian",
+    "discipline": "Development"
+  },
+  "bilaluc": {
+    "name": "Bilal",
+    "discipline": "Development"
+  },
+  "joshuc": {
+    "name": "Josh",
+    "discipline": "Development"
+  },
+  "sarahuc": {
+    "name": "Sara",
+    "discipline": "Development"
+  },
+  "maxuc": {
+    "name": "Max",
+    "discipline": "QA"
+  },
+  "adamuc": {
+    "name": "Adam",
+    "discipline": "Analytics"
+  },
+  "amy31029358": {
+    "name": "Amy",
+    "discipline": "Analytics"
+  },
+  "gracedean6": {
+    "name": "Grace",
+    "discipline": "Analytics"
+  },
+  "joegill19": {
+    "name": "Joe",
+    "discipline": "Analytics"
+  },
+  "robertuc": {
+    "name": "Rob",
+    "discipline": "Analytics"
+  },
+  "llarageddes2": {
+    "name": "Llara",
+    "discipline": "Research"
+  },
+  "sarahluc": {
+    "name": "Sarah",
+    "discipline": "Research"
+  },
+  "oliviauc": {
+    "name": "Olivia",
+    "discipline": "Research"
+  },
+  "sambuc": {
+    "name": "Sam B",
+    "discipline": "Research"
+  },
+  "hazeluc": {
+    "name": "Hazel",
+    "discipline": "Research"
+  },
+  "callummcstay1": {
+    "name": "Callum",
+    "discipline": "Research"
+  },
+  "halimasuc": {
+    "name": "Halima",
+    "discipline": "Research"
+  },
+  "fayeuc": {
+    "name": "Faye",
+    "discipline": "Design"
+  },
+  "meganryderr": {
+    "name": "Megan",
+    "discipline": "Design"
+  },
+  "swizelfernandes": {
+    "name": "Swizel",
+    "discipline": "Design"
+  },
+  "prestonuc": {
+    "name": "Preston",
+    "discipline": "User Test"
+  }
+}
