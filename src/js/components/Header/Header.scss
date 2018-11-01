@@ -1,0 +1,15 @@
+.header {
+  padding: 16px;
+}
+
+.header__logo {
+  display: inline-block;
+  width: 150px;
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 40px;
+  background-image: url('https://www.userconversion.com/wp-content/themes/userconversion/images/uc-logo-white.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+}

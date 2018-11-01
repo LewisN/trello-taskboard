@@ -1,15 +1,17 @@
 // webpack v4
 
 const path = require('path');
+const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const WebpackMd5Hash = require('webpack-md5-hash');
 
 module.exports = {
-  entry: { main: './src/js/main.js' },
+  entry: { main: './src/main.js' },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].[contenthash].js'
   },
   module: {
     rules: [
@@ -42,8 +44,9 @@ module.exports = {
   },
   plugins: [ 
     new CleanWebpackPlugin(['dist']),
+    // new WebpackMd5Hash(),
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: 'style.[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       inject: false,
@@ -51,5 +54,18 @@ module.exports = {
       template: './src/index.html',
       filename: 'index.html'
     }),
+    new webpack.HashedModuleIdsPlugin()
   ],
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  }
 };

@@ -1,0 +1,25 @@
+.loader--bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+
+  .loader {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: -70px auto 0 auto;
+    height: 50px;
+    width: 50px;
+    background-image: url('../img/spinner.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &.hidden {
+    display: none;
+  }
+}

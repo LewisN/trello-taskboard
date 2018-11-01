@@ -1,26 +1,13 @@
 @import './reset.scss';
+@import '../js/components/Header/Header.scss';
+@import '../js/components/List/List.scss';
+@import '../js/components/Loader/Loader.scss';
 
 html, body {
   font-family: helvetica;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   background-color: #164984;
-}
-
-header {
-  padding: 16px;
-
-  .logo {
-    display: inline-block;
-    width: 150px;
-    height: 40px;
-    vertical-align: middle;
-    margin-right: 40px;
-    background-image: url('https://www.userconversion.com/wp-content/themes/userconversion/images/uc-logo-white.svg');
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: contain;
-  }
 }
 
 h1 {
@@ -32,149 +19,11 @@ h1 {
   text-transform: capitalize;
 }
 
-/* Lists */
 #dev-lists {
   text-align: center;
   display: flex;
   overflow-x: scroll;
   padding: 0 0 20px 0;
-}
-
-.list {
-  background: #ecedef;
-  color: #4d4d4d;
-  border-radius: 3px;
-  display: inline-block;
-  margin: 0 8px;
-  text-align: left;
-  vertical-align: top;
-  min-width: 270px;
-  width: 270px;
-}
-
-.list__head {
-  padding: 16px 8px 8px 8px;
-  color: #4d4d4d;
-  border-bottom: none;
-  background: #ecedef;
-  border-radius: 3px 3px 0 0;
-}
-
-.list__avatar {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 10px;
-  height: 50px;
-  width: 50px;
-  border-radius: 4px;
-  background-color: white;
-  background-position: center;
-  background-size: 35px;
-  background-repeat: no-repeat;
-  background-image: url('../img/user.png');
-  float: left;
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 4px;
-  }
-}
-
-.list__nameBlock {
-  float: left;
-}
-
-.list__name {
-  font-weight: bold;
-  display: inline-block;
-  font-size: 16px;
-  display: block;
-}
-
-.list__username {
-  float: right;
-  margin-top: 1px;
-  font-size: 12px;
-}
-
-.list__discipline {
-  font-size: 12px;
-  text-align: left;
-  color: #4d4d4d;
-  font-weight: bold;
-  margin-top: 4px;
-}
-
-.list__body {
-  padding: 8px;
-  overflow-y: scroll;
-  max-height: 82vh;
-  clear: both;
-}
-
-.list__card {
-  box-sizing: border-box;
-  padding: 16px 8px;
-  color: black;
-  max-width: 300px;
-  min-height: 20px;
-  margin: 8px auto;
-  overflow: hidden;
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-.list__card__title {
-  font-size: 14px;
-  line-height: 17px;
-  clear: both;
-  font-weight: 400;
-  margin: 0 0 4px;
-  overflow: hidden;
-  word-wrap: break-word;
-  color: #4d4d4d;
-
-  a {
-    text-decoration: none;
-    color: #444;
-  
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.list__card__desc {
-  display: none;
-}
-
-.list__card-count {
-  max-width: 280px;
-  margin: 0 auto;
-  padding: 8px;
-
-  > span {
-    vertical-align: middle;
-  }
-
-  > em {
-    font-weight: bold;
-    vertical-align: middle;
-  }
-}
-
-.list__card__board {
-  text-align: left;
-  font-size: 12px;
-  margin: 8px 0 0 0;
-
-  a {
-    color: #444;
-    font-weight: bold;
-    text-decoration: none;
-  }
 }
 
 #change-board {
@@ -185,32 +34,6 @@ h1 {
   font-size: 15px;
   height: 35px;
   text-transform: capitalize;
-}
-
-.loader--bg {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  text-align: center;
-
-  .loader {
-    display: inline-block;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    margin: -70px auto 0 auto;
-    height: 50px;
-    width: 50px;
-    background-image: url('../img/spinner.gif');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  &.hidden {
-    display: none;
-  }
 }
 
 @media screen and (max-width: 767px) {

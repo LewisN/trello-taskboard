@@ -1,4 +1,4 @@
-import initApp from './main';
+import app from './app';
 
 const Trello = window.Trello;
 Trello.authorize({
@@ -11,7 +11,7 @@ Trello.authorize({
   expiration: 'never',
   success: function() {
       console.log('Successful authentication');
-      initApp();
+      app.init();
   },
   error: function() {
       console.log('Error authenticating user');
