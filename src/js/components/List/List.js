@@ -1,6 +1,7 @@
 import nameMap from '../../data/users.json';
 import globalCache from '../../cache';
 import { makeTrelloAPIRequests } from '../../utils';
+import Error from '../Error/Error';
 
 const { 
   elements, 
@@ -11,7 +12,6 @@ const {
 
 export default class List {
   constructor(username) {
-    console.log('Constructing List component');
     this.cache = {
       username,
       name: nameMap[username].name,
@@ -19,9 +19,9 @@ export default class List {
     }
     
     if (Object.prototype.hasOwnProperty.call(users, username)) {
-      console.log(`data for ${username} is cached`);
+      // User data is already in global cache. Import to local cache.
+      this.cache.userData = users[username];
 
-      // User data is already cached
       this.loadNewBoards()
         .then((result) => {
           this.create();
@@ -31,7 +31,6 @@ export default class List {
           console.log(err);
         });
     } else {
-      console.log(`data for ${username} is NOT cached - making a request`);
       // User data is new so make an API request
       this.loadUserData()
         .then((result1) => {
@@ -43,6 +42,9 @@ export default class List {
         })
         .catch((err) => {
           console.log(err);
+          if (err && err.responseJSON && err.responseJSON.error) {
+            new Error(err.responseJSON.error);
+          }
         });
     }
 
@@ -57,34 +59,26 @@ export default class List {
    * Make requests to Trello API for user and card data
    */
   loadUserData() {
-    const { cache } = this;
-
     // make API request to /user and /user/cards
     return new Promise((resolve, reject) => {
-      const { username } = cache;
-      console.log(`loading user data for ${username}`);
+      const { username } = this.cache;
 
       makeTrelloAPIRequests([
-        `members/${username}`,
-        `members/${username}/cards`
+        `/members/${username}`,
+        `/members/${username}/cards`
       ])
         .then((result) => {
-          console.log(`data successfully loaded for ${username}`);
           const data = {
-            memberObject: result[0],
-            cards: result[1],
-            result: result
+            memberObject: result[0][0][200],
+            cards: result[0][1][200],
+            result: result[0]
           };
           users[username] = data; // Global cache
-          cache.userData = data; // Local cache
+          this.cache.userData = users[username]; // Local cache
           this.updateBoardNames();
           resolve();
         })
-        .catch((err) => {
-          console.log(`error loading data for ${username}`);
-          console.log(err);
-          reject();
-        });
+        .catch(reject);
     });
   }
 
@@ -108,7 +102,6 @@ export default class List {
       });
 
       if (boardApiRequests.pending.length) {
-        console.log(`new board requests are pending - making requests to ${boardApiRequests.pending.length} endpoints`);
         boardApiRequests.active = boardApiRequests.pending;
         boardApiRequests.pending = [];
         
@@ -116,10 +109,21 @@ export default class List {
         const endpoints = boardApiRequests.active.map((id) => `/boards/${id}`);
         makeTrelloAPIRequests(endpoints)
           .then((results) => {
-            console.log(`board data loaded successfully`);
-            results.forEach((result) => {
+            /*
+              Normalise the results
+              If the result is from a batch request the response is structured differently
+             */
+            const wasBatchRequest = results[0].length > 1;
+            let boardData = !wasBatchRequest ? results : (() => {
+              let arr = [];
+              results[0].forEach((result) => {
+                arr.push(result[200]);
+              });
+              return arr;
+            })();
+
+            boardData.forEach((result) => {
               // Remove board ID from active requests
-              console.log(`removing board data from pending requests`);
               const idx = boardApiRequests.active.indexOf(result.id);
               boardApiRequests.active.splice(idx, 1);
               
@@ -129,8 +133,6 @@ export default class List {
             resolve();
           })
           .catch((err) => {
-            console.log(`error loading board data`);
-            console.log(boardApiRequests.pending);
             console.log(err);
             reject();
           });

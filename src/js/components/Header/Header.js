@@ -8,6 +8,11 @@ export default class Header {
     this.create();
     this.bindEvents();
     this.render();
+
+    const value = this.cache.component.querySelector('.header__select').value;
+    console.log(value);
+    this.updateTitle(value);
+
     return {
       updateTitle: this.updateTitle,
       cache: this.cache,
@@ -21,7 +26,7 @@ export default class Header {
     component.classList.add('header');
     component.innerHTML = `
       <div class="header__logo"></div>
-      <h1 class="header__title">Development Taskboard</h1>
+      <h1 class="header__title">Taskboard</h1>
     `;
     const select = (() => {
       const element = document.createElement('select');
@@ -42,8 +47,8 @@ export default class Header {
   bindEvents() {
     const { component } = this.cache;
     component.addEventListener('change', (e) => {
-      this.updateTitle(e.value);
-      controller.updateView(e.value);
+      this.updateTitle(e.target.value);
+      controller.updateView(e.target.value);
     });
   }
 

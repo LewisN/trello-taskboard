@@ -13,3 +13,13 @@
   background-position: left center;
   background-size: contain;
 }
+
+.header__select {
+  display: inline-block;
+  margin-left: 15px;
+  cursor: pointer;
+  vertical-align: middle;
+  font-size: 15px;
+  height: 35px;
+  text-transform: capitalize;
+}

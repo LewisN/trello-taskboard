@@ -5,7 +5,7 @@
  * @param {number} expiryDays Number of days for the cookie to expire
  * @param {string} domain
  */
-const setCookie = (name, value, expiryDays, domain) => {
+export const setCookie = (name, value, expiryDays, domain) => {
   const expiryDate = new Date();
   expiryDate.setDate(expiryDate.getDate() + expiryDays);
   const cookieValue = escape(value) + (expiryDays == null ? '' : `; expires=${expiryDate.toUTCString()}`);
@@ -17,7 +17,7 @@ const setCookie = (name, value, expiryDays, domain) => {
  * Get cookie helper
  * @param {string} name 
  */
-const getCookie = (name) => {
+export const getCookie = (name) => {
   const match = document.cookie.match(name+'=([^;]*)');
   return match ? match[1] : undefined;
 };
@@ -26,29 +26,39 @@ const getCookie = (name) => {
  * Allows parallel requests to the Trello API using promises
  * @param {Array} endpoints Array of API endpoints
  */
-const makeTrelloAPIRequests = (endpoints) => {
+export const makeTrelloAPIRequests = (endpoints) => {
   let requests = [];
 
-  // Create a new promise for each request and return the results when all
-  // requests have been successful
-  endpoints.forEach((endpoint) => {
+  /*
+    If there are multiple endpoints (MAX: 10), make a batch
+    request to reduce number of API requests
+   */
+  if (endpoints.length > 1 && endpoints.length <= 10) {    
     requests.push(
       new Promise((resolve, reject) => {
-        Trello.get(
-          endpoint,
-          (data) => {
-            resolve(data); 
-          },
-          (err) => {
-            // Errors are often caused by too many requests
-            reject('Error with Trello response'); 
-          }
-        );
+        Trello.get(`/batch/?urls=${endpoints.toString()}`, resolve, reject);    
       })
     );
-  });
+  } else {
+    endpoints.forEach((endpoint) => {
+      requests.push(
+        new Promise((resolve, reject) => {
+          Trello.get(endpoint, resolve, reject);
+        })
+      );
+    });
+  }
 
   return Promise.all(requests);
 }
 
-export { setCookie, getCookie, makeTrelloAPIRequests };
+/**
+ * Loads and caches all users in an organisation in a single request
+ * workaround for API limits
+ */
+export const loadOrganisation = () => {
+  const ORGANISATION_ID = '561f8df260eaa1feec3afba2';
+  makeTrelloAPIRequests(['/organizations/userconversion?fields=all'])
+    .then((result) => {
+    });
+};
