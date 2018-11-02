@@ -1,6 +1,7 @@
 import { setCookie } from '../../utils';
 import teams from '../../data/teams';
 import controller from '../../app';
+import Menu from '../Menu/Menu';
 
 export default class Header {
   constructor() {
@@ -10,7 +11,6 @@ export default class Header {
     this.render();
 
     const value = this.cache.component.querySelector('.header__select').value;
-    console.log(value);
     this.updateTitle(value);
 
     return {
@@ -27,19 +27,12 @@ export default class Header {
     component.innerHTML = `
       <div class="header__logo"></div>
       <h1 class="header__title">Taskboard</h1>
+      <select class="header__select">
+        ${Object.keys(teams).map((team) => `<option value="${team}">${team}</option>`)}
+      </select>
+      <div class="header__menu"></div>
     `;
-    const select = (() => {
-      const element = document.createElement('select');
-      element.classList.add('header__select');
-      for (let team in teams) {
-        const option = document.createElement('option');
-        option.value = team;
-        option.innerText = team;
-        element.appendChild(option);
-      }
-      return element;
-    })();
-    component.appendChild(select);
+    component.querySelector('.header__menu').appendChild(new Menu());
     cache.component = component;
   }
 
@@ -55,7 +48,7 @@ export default class Header {
   /** Render component */
   render() {
     const { component } = this.cache;
-    document.body.insertAdjacentElement('afterbegin', component);
+    document.querySelector('main').insertAdjacentElement('afterbegin', component);
   }
 
   /**

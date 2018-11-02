@@ -1,12 +1,13 @@
+import { makeTrelloAPIRequests } from '../../utils';
 import nameMap from '../../data/users.json';
 import globalCache from '../../cache';
-import { makeTrelloAPIRequests } from '../../utils';
 import Error from '../Error/Error';
+import moment from 'moment';
 
 const { 
   elements, 
   boardApiRequests, 
-  boardNames,
+  boards,
   users
 } = globalCache;
 
@@ -16,130 +17,42 @@ export default class List {
       username,
       name: nameMap[username].name,
       discipline: nameMap[username].discipline,
+      userData: null,
     }
+    const init = () => {
+      this.create();
+      this.cache.userData.cards.forEach((card) => {
+        this.addCard(card);
+      });
+      this.render();
+    };
+    const error = (err) => {
+      console.log(err);
+      if (err && err.responseJSON && err.responseJSON.error) {
+        new Error(err.responseJSON.error);
+      }
+    };
     
     if (Object.prototype.hasOwnProperty.call(users, username)) {
       // User data is already in global cache. Import to local cache.
       this.cache.userData = users[username];
-
       this.loadNewBoards()
-        .then((result) => {
-          this.create();
-          this.render();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then(init)
+        .catch(error);
     } else {
       // User data is new so make an API request
       this.loadUserData()
         .then((result1) => {
           return Promise.all([result1, this.loadNewBoards(result1)]);
         })
-        .then((results) => {
-          this.create();
-          this.render();
-        })
-        .catch((err) => {
-          console.log(err);
-          if (err && err.responseJSON && err.responseJSON.error) {
-            new Error(err.responseJSON.error);
-          }
-        });
+        .then(init)
+        .catch(error);
     }
 
     return {
       addCard: this.addCard,
-      removeCard: this.removeCard,
       cache: this.cache,
     }
-  }
-
-  /**
-   * Make requests to Trello API for user and card data
-   */
-  loadUserData() {
-    // make API request to /user and /user/cards
-    return new Promise((resolve, reject) => {
-      const { username } = this.cache;
-
-      makeTrelloAPIRequests([
-        `/members/${username}`,
-        `/members/${username}/cards`
-      ])
-        .then((result) => {
-          const data = {
-            memberObject: result[0][0][200],
-            cards: result[0][1][200],
-            result: result[0]
-          };
-          users[username] = data; // Global cache
-          this.cache.userData = users[username]; // Local cache
-          this.updateBoardNames();
-          resolve();
-        })
-        .catch(reject);
-    });
-  }
-
-  /**
-   * Make requests to Trello API for any new board IDs
-   * in card data
-   */
-  loadNewBoards() {
-    return new Promise((resolve, reject) => {
-      const { username } = this.cache;
-
-      // Push any new board IDs (not cached or in active request) to boardApiRequests.pending
-      users[username].cards.forEach((card) => {
-        const id = card.idBoard;
-        const boardCached = Object.prototype.hasOwnProperty.call(boardNames, id);
-        const requestAlreadySent = boardApiRequests.active.indexOf(id) > -1;
-        if (!boardCached && !requestAlreadySent) {
-            boardNames[id] = id;
-            boardApiRequests.pending.push(id);
-        }
-      });
-
-      if (boardApiRequests.pending.length) {
-        boardApiRequests.active = boardApiRequests.pending;
-        boardApiRequests.pending = [];
-        
-        // Make API requests
-        const endpoints = boardApiRequests.active.map((id) => `/boards/${id}`);
-        makeTrelloAPIRequests(endpoints)
-          .then((results) => {
-            /*
-              Normalise the results
-              If the result is from a batch request the response is structured differently
-             */
-            const wasBatchRequest = results[0].length > 1;
-            let boardData = !wasBatchRequest ? results : (() => {
-              let arr = [];
-              results[0].forEach((result) => {
-                arr.push(result[200]);
-              });
-              return arr;
-            })();
-
-            boardData.forEach((result) => {
-              // Remove board ID from active requests
-              const idx = boardApiRequests.active.indexOf(result.id);
-              boardApiRequests.active.splice(idx, 1);
-              
-              // Map board name in cache
-              boardNames[result.id] = result.name;
-            });
-            resolve();
-          })
-          .catch((err) => {
-            console.log(err);
-            reject();
-          });
-      } else {
-        resolve();
-      }
-    });
   }
 
   /**
@@ -169,25 +82,10 @@ export default class List {
         </div>
         <div class="list__username">${username}</div>
       </div>
-
       <div class="list__body">
         <div class="list__card-count">
           <em>${cards.length}</em> <span>${(cards.length === 1 ? 'card' : 'cards')}</span>
         </div>
-
-        <!-- Card -->
-        ${cards.map((data) => `
-          <div class="list__card">
-            <div class="list__card__title">
-              <a href="${data.shortUrl}">${data.name}</a>
-            </div>
-            <div class="list__card__desc">${data.desc}</div>
-            <div class="list__card__board">
-              <a class="list__card__boardID" href="#">${boardNames[data.idBoard]}</a>
-            </div>
-          </div>
-        `).join('')}
-        <!-- End Card -->
       </div>
     `;
 
@@ -198,31 +96,199 @@ export default class List {
    * Render component
    */
   render() {
-    this.updateBoardNames();
+    List.addBoardData();
     elements.devLists.appendChild(this.cache.component); 
   }
 
   /**
-   * Replace any board IDs on page with board name
+   * Add a card to the list
+   * @param {object} data API response for card data
    */
-  updateBoardNames() {
-    const boardIDs = document.querySelectorAll('.list__card__boardID');
-    Array.from(boardIDs).forEach((node) => {
-      if (boardNames[node.innerText] && boardNames[node.innerText] !== node.innerText) {
-        node.innerText = boardNames[node.innerText];
+  addCard(data) {
+    const getData = {
+      lastActivity: () => {
+        const then = moment(data.dateLastActivity);
+        const now = moment();
+        return then.from(now);
+      },
+      dateCreated: () => { 
+        const date = new Date(1000*parseInt(data.id.substring(0,8),16));
+        return moment(date).format('MMM DD YYYY');
+      },
+      timeSinceCreation: () => {
+        const date = new Date(1000*parseInt(data.id.substring(0,8),16));
+        const then = moment(date);
+        const now = moment();
+        return then.from(now);
+      },
+      currentList: () => {
+        // console.log(boards);
+        // console.log(boards[data.idList]);
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            resolve('Promise resolved');
+          }, 5000);
+        });
+        // const { actions } = data;
+        // let toReturn;
+        // if (actions) {
+        //   actions.forEach((action) => {
+        //     if (action.data.listBefore && action.data.listAfter) {
+        //       toReturn = action.data.listAfter.name;
+        //       return;
+        //     }
+        //   });
+        // }
+        // return toReturn;
+      },
+      timeInList: () => {
+        const { actions } = data;
+        let toReturn;
+        if (actions) {
+          actions.forEach((action) => {
+            if (action.data.listBefore && action.data.listAfter) {
+              const { date } = action;
+              const then = moment(date);
+              const now = moment();
+              toReturn = then.from(now).replace(' ago', '');
+              return;
+            }
+          });
+        }
+        return toReturn;
+      },
+    };
+
+    // Template
+    console.log(data);
+    const list = this.cache.component.querySelector('.list__body')
+    const template = `
+      <!-- Card -->
+      <div class="list__card">
+        <div class="list__card__title">
+          <a href="${data.shortUrl}">${data.name}</a>
+        </div>
+        <div class="list__card__desc">${data.desc}</div>
+        <div class="list__card__board">
+          <a class="list__card__boardID" href="${boards[data.idBoard].url}">${boards[data.idBoard].name}</a>
+        </div>
+        <div class="list__card__data">
+          <em>Last activity:</em> ${getData.lastActivity()}
+        </div>
+        <div class="list__card__data">
+          <em>Created:</em> ${getData.dateCreated()} (${getData.timeSinceCreation()})
+        </div>
+        <div class="list__card__data">
+          <em>Time in list:</em> ${getData.timeInList()}
+        </div>
+      </div>
+      <!-- End Card -->
+    `;
+    list.insertAdjacentHTML('beforeend', template);
+  }
+
+  /**
+   * Make requests to Trello API for user and card data
+   */
+  loadUserData() {
+    // make API request to /user and /user/cards
+    return new Promise((resolve, reject) => {
+      const { username } = this.cache;
+
+      makeTrelloAPIRequests([`/members/${username}`, `/members/${username}/cards?actions=updateCard`])
+        .then((result) => {
+          const data = {
+            memberObject: result[0][0][200],
+            cards: result[0][1][200],
+            result: result[0]
+          };
+          users[username] = data; // Global cache
+          this.cache.userData = users[username]; // Local cache
+          List.addBoardData();
+          resolve();
+        })
+        .catch(reject);
+    });
+  }
+
+  /**
+   * Make requests to Trello API for any new board IDs
+   * in card data
+   */
+  loadNewBoards() {
+    return new Promise((resolve, reject) => {
+      const { username } = this.cache;
+
+      // Push any new board IDs (not cached or in active request) to boardApiRequests.pending
+      users[username].cards.forEach((card) => {
+        const id = card.idBoard;
+        const boardCached = Object.prototype.hasOwnProperty.call(boards, id);
+        const requestAlreadySent = boardApiRequests.active.indexOf(id) > -1;
+        if (!boardCached && !requestAlreadySent) {
+          boards[id] = {
+            name: id,
+          };
+          boardApiRequests.pending.push(id);
+        }
+      });
+
+      if (boardApiRequests.pending.length) {
+        boardApiRequests.active = boardApiRequests.pending;
+        boardApiRequests.pending = [];
+        
+        // Make API requests to return boards and lists
+        const endpoints = boardApiRequests.active.map(id => `/boards/${id}?lists=all`);
+        makeTrelloAPIRequests(endpoints)
+          .then((results) => {
+            /*
+              Normalise the results
+              If the result is from a batch request the response is structured differently
+             */
+            const wasBatchRequest = results[0].length > 1;
+            let boardData = !wasBatchRequest ? results : (() => {
+              let arr = [];
+              results[0].forEach((result) => {
+                arr.push(result[200]);
+              });
+              return arr;
+            })();
+
+            boardData.forEach((result) => {
+              // Remove board ID from active requests
+              const idx = boardApiRequests.active.indexOf(result.id);
+              boardApiRequests.active.splice(idx, 1);
+              boards[result.id] = result; // Global cache
+            });
+            console.log('board data cached');
+            resolve();
+          })
+          .catch((err) => {
+            console.log(err);
+            reject();
+          });
+      } else {
+        resolve();
       }
     });
   }
 
   /**
-   * Add a card to the list
+   * API request for boards is made separately to member/card requests, so
+   * when this is available add it all to the view
    */
-  addCard() {
-  }
+  static addBoardData() {
+    const cards = document.querySelectorAll('.list__card');
+    Array.from(cards).forEach((card) => {
+      // Replace board ID with board name
+      const boardID = card.querySelector('.list__card__boardID'); 
+      if (boards[card.innerText] && boards[card.innerText].name !== card.innerText) {
+        const { innerText } = card;
+        card.innerText = boards[innerText].name;
+        card.href = boards[innerText].url;
+      }
 
-  /**
-   * Remove a card from the list
-   */
-  removeCard() {
+      // Add list name
+      //boards[]
+    });
   }
 }

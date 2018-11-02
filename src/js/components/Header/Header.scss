@@ -14,7 +14,17 @@
   background-size: contain;
 }
 
+.header__title {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+}
+
 .header__select {
+  background: white;
   display: inline-block;
   margin-left: 15px;
   cursor: pointer;
@@ -22,4 +32,28 @@
   font-size: 15px;
   height: 35px;
   text-transform: capitalize;
+}
+
+.header__menu {
+  float: right;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .header__logo {
+    margin-right: 10px;
+    width: 100px;
+  }
+
+  .header__title {
+    font-size: 18px;
+  }
+
+  .header__menu {
+    background: #16538f;
+    position: fixed;
+    top: 5px;
+    right: 0;
+    padding: 10px;
+  }
 }

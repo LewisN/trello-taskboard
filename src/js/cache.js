@@ -1,6 +1,6 @@
 export default {
   users: {},
-  boardNames: {},
+  boards: {},
   boardApiRequests: {
       active: [],
       pending: [],

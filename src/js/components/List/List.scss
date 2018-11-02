@@ -108,6 +108,15 @@
   display: none;
 }
 
+.list__card__data {
+  font-size: 12px;
+  border-radius: 3px;
+  padding: 10px 6px;
+  box-sizing: border-box;
+  background: #ececec;
+  margin: 5px 0 0 0;
+}
+
 .list__card-count {
   max-width: 280px;
   margin: 0 auto;

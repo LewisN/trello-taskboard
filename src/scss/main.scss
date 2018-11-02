@@ -3,21 +3,13 @@
 @import '../js/components/List/List.scss';
 @import '../js/components/Loader/Loader.scss';
 @import '../js/components/Error/Error.scss';
+@import '../js/components/Menu/Menu.scss';
 
 html, body {
   font-family: helvetica;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  background-color: #164984;
-}
-
-h1 {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  text-transform: capitalize;
+  background-color: #FFF;
 }
 
 #dev-lists {
@@ -25,6 +17,7 @@ h1 {
   display: flex;
   overflow-x: scroll;
   padding: 0 0 20px 0;
+  width: 100%;
 }
 
 #change-board {
@@ -35,11 +28,4 @@ h1 {
   font-size: 15px;
   height: 35px;
   text-transform: capitalize;
-}
-
-@media screen and (max-width: 767px) {
-  h1 {
-    display: block;
-    margin: 20px 0 0 0;
-  }
 }

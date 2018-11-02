@@ -75,15 +75,6 @@ const teams = {
   'User Test': [
     'prestonuc',
   ],
-  'Podless': [
-    'daviduc',
-    'ryanuc',
-    'adamuc',
-    'lewisuc',
-    'bethuc',
-    'maxuc',
-    'fayeuc',
-  ],
 };
 
 // Combine teams to create one with all users
