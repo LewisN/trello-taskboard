@@ -4,15 +4,18 @@ import globalCache from '../../cache';
 import Error from '../Error/Error';
 import moment from 'moment';
 
-const { 
-  elements, 
-  boardApiRequests, 
+const {
+  elements,
+  boardApiRequests,
   boards,
   users
 } = globalCache;
 
 export default class List {
   constructor(username) {
+    if (!nameMap[username]) {
+      console.log(`Could not read username: ${username}`);
+    }
     this.cache = {
       username,
       name: nameMap[username].name,
@@ -112,34 +115,21 @@ export default class List {
         return then.from(now);
       },
       dateCreated: () => { 
-        const date = new Date(1000*parseInt(data.id.substring(0,8),16));
+        const date = new Date(1000 * parseInt(data.id.substring(0,8),16));
         return moment(date).format('MMM DD YYYY');
       },
       timeSinceCreation: () => {
-        const date = new Date(1000*parseInt(data.id.substring(0,8),16));
+        const date = new Date(1000 * parseInt(data.id.substring(0,8),16));
         const then = moment(date);
         const now = moment();
         return then.from(now);
       },
       currentList: () => {
-        // console.log(boards);
-        // console.log(boards[data.idList]);
         return new Promise((resolve, reject) => {
           setTimeout(() => {
             resolve('Promise resolved');
           }, 5000);
         });
-        // const { actions } = data;
-        // let toReturn;
-        // if (actions) {
-        //   actions.forEach((action) => {
-        //     if (action.data.listBefore && action.data.listAfter) {
-        //       toReturn = action.data.listAfter.name;
-        //       return;
-        //     }
-        //   });
-        // }
-        // return toReturn;
       },
       timeInList: () => {
         const { actions } = data;
@@ -154,13 +144,16 @@ export default class List {
               return;
             }
           });
+          if (!toReturn) {
+            // Card is still in original list
+            toReturn = getData.timeSinceCreation().replace(' ago', '');
+          }
         }
         return toReturn;
       },
     };
 
     // Template
-    console.log(data);
     const list = this.cache.component.querySelector('.list__body')
     const template = `
       <!-- Card -->
@@ -259,7 +252,8 @@ export default class List {
               boardApiRequests.active.splice(idx, 1);
               boards[result.id] = result; // Global cache
             });
-            console.log('board data cached');
+
+            List.addBoardData();
             resolve();
           })
           .catch((err) => {
@@ -281,10 +275,10 @@ export default class List {
     Array.from(cards).forEach((card) => {
       // Replace board ID with board name
       const boardID = card.querySelector('.list__card__boardID'); 
-      if (boards[card.innerText] && boards[card.innerText].name !== card.innerText) {
-        const { innerText } = card;
-        card.innerText = boards[innerText].name;
-        card.href = boards[innerText].url;
+      if (boards[boardID.innerText] && boards[boardID.innerText].name !== boardID.innerText) {
+        const { innerText } = boardID;
+        boardID.innerText = boards[innerText].name;
+        boardID.href = boards[innerText].url;
       }
 
       // Add list name

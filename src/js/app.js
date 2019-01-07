@@ -25,7 +25,11 @@ const controller = {
     // Repopulate with new user group
     const usernames = teams[viewName];
     usernames.forEach((username) => {
-      new List(username);
+      try {
+        new List(username);
+      } catch (e) {
+        console.error(e);
+      }
     });
 
     header.cache.component.querySelector('.header__select').value = viewName;

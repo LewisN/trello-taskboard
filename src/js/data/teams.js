@@ -2,16 +2,29 @@ const teams = {
   'Pod Avengers': [
     'danuc',
     'elizabyrne1',
-    'hazeluc', 'oliviauc',
-    'sarahuc',
+    'hazeluc',
+    'oliviauc',
+    'callummcstay1',
+    'damianuc',
     'rebeccauc',
+    'sarahuc',
+    'robertuc',
+    'joegill19',
+    'meganryderr',
   ],
   'Pod Skywalker': [
     'carrieuc',
+    'halimasuc',
     'alexptuc',
     'sambuc',
-    'scottuc',
+    'sarahuc',
+    'joshuc',
+    'michele55205618',
     'bilaluc',
+    'gracedean6',
+    'amy31029358',
+    'swizelfernandes',
+    'fayeuc',
   ],
   'Leadership Team': [
     'markleach21',
@@ -24,8 +37,10 @@ const teams = {
   'Strategy': [
     'carrieuc',
     'danuc',
+    'halimasuc',
   ],
-  'Account Management': [
+  'Account Management & Operations': [
+    'bethuc',
     'emilyuc',
     'alexptuc',
     'elizabyrne1',
@@ -47,8 +62,8 @@ const teams = {
     'joshuc',
     'rebeccauc',
     'sarahuc',
-    'scottuc',
     'bilaluc',
+    'michele55205618'
   ], 
   'QA': [
     'maxuc',
@@ -60,21 +75,12 @@ const teams = {
     'amy31029358',
     'gracedean6',
   ],
-  'Operations': [
-    'bethuc',
-  ],
   'Design': [
     'fayeuc',
     'meganryderr',
     'swizelfernandes',
   ], 
-  'Directors': [
-    'daviduc',
-    'ryanuc',
-  ],
-  'User Test': [
-    'prestonuc',
-  ],
+  'User Test': [],
 };
 
 // Combine teams to create one with all users
