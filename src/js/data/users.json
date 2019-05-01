@@ -1,8 +1,4 @@
 {
-  "daviduc": {
-    "name": "David",
-    "discipline": "Boss Man"
-  },
   "markleach21": {
     "name": "Mark",
     "discipline": "Managing Director"
@@ -11,13 +7,21 @@
     "name": "Ryan",
     "discipline": "Director"
   },
+  "daviduc": {
+    "name": "David",
+    "discipline": "Consultancy / Undercover Boss"
+  },
+  "ashleighuc": {
+    "name": "Ashleigh",
+    "discipline": "Consultancy"
+  },
   "carrieuc": {
     "name": "Carrie",
-    "discipline": "Strategy"
+    "discipline": "Consultancy"
   },
   "danuc": {
     "name": "Dan",
-    "discipline": "Strategy"
+    "discipline": "Consultancy"
   },
   "bethuc": {
     "name": "Beth",
@@ -29,11 +33,11 @@
   },
   "elizabyrne1": {
     "name": "Eliza",
-    "discipline": "Account Management"
+    "discipline": "Digital Projects"
   },
   "alexptuc": {
     "name": "Alex",
-    "discipline": "Account Management"
+    "discipline": "Partnerships"
   },
   "lewisuc": {
     "name": "Lewis",
@@ -49,10 +53,6 @@
   },
   "damianuc": {
     "name": "Damian",
-    "discipline": "Development"
-  },
-  "bilaluc": {
-    "name": "Bilal",
     "discipline": "Development"
   },
   "joshuc": {
@@ -71,10 +71,6 @@
     "name": "Adam",
     "discipline": "Analytics"
   },
-  "amy31029358": {
-    "name": "Amy",
-    "discipline": "Analytics"
-  },
   "gracedean6": {
     "name": "Grace",
     "discipline": "Analytics"
@@ -85,6 +81,10 @@
   },
   "robertuc": {
     "name": "Rob",
+    "discipline": "Analytics"
+  },
+  "radekloucka": {
+    "name": "Radek",
     "discipline": "Analytics"
   },
   "llarageddes2": {
@@ -126,9 +126,5 @@
   "swizelfernandes": {
     "name": "Swizel",
     "discipline": "Design"
-  },
-  "prestonuc": {
-    "name": "Preston",
-    "discipline": "User Test"
   }
 }
