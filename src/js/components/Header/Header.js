@@ -1,4 +1,3 @@
-import { setCookie } from '../../utils';
 import teams from '../../data/teams';
 import controller from '../../app';
 import Menu from '../Menu/Menu';
@@ -11,7 +10,6 @@ export default class Header {
     this.render();
 
     const value = this.cache.component.querySelector('.header__select').value;
-    this.updateTitle(value);
 
     return {
       updateTitle: this.updateTitle,

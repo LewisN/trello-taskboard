@@ -51,14 +51,3 @@ export const makeTrelloAPIRequests = (endpoints) => {
 
   return Promise.all(requests);
 }
-
-/**
- * Loads and caches all users in an organisation in a single request
- * workaround for API limits
- */
-export const loadOrganisation = () => {
-  const ORGANISATION_ID = '561f8df260eaa1feec3afba2';
-  makeTrelloAPIRequests(['/organizations/userconversion?fields=all'])
-    .then((result) => {
-    });
-};

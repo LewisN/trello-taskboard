@@ -1,9 +1,10 @@
 import app from './app';
 
-const Trello = window.Trello;
+const { Trello } = window;
+
 Trello.authorize({
   type: 'redirect',
-  name: 'User Conversion Taskboards',
+  name: 'Trello Taskboard',
   scope: {
     read: 'true',
     write: 'true' 

@@ -1,15 +1,14 @@
-import { getCookie, setCookie, loadOrganisation } from './utils';
+import { getCookie, setCookie } from './utils';
 import teams from './data/teams';
 import Loader from './components/Loader/Loader';
 import Header from './components/Header/Header';
 import List from './components/List/List';
 
-const { Trello, $ } = window;
+const { $ } = window;
 const loader = new Loader();
 const header = new Header();
 const controller = {
   init: () => {
-    //  loadOrganisation();
     const cookie = getCookie('taskboard_view');
     const value = cookie ? cookie : 'All';
     $('#change-board').val(value);

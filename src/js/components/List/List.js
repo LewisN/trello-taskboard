@@ -14,7 +14,8 @@ const {
 export default class List {
   constructor(username) {
     if (!nameMap[username]) {
-      console.log(`Could not read username: ${username}`);
+      console.error(`Could not read username: ${username}`);
+      return false;
     }
     this.cache = {
       username,
@@ -30,7 +31,7 @@ export default class List {
       this.render();
     };
     const error = (err) => {
-      console.log(err);
+      console.error(err);
       if (err && err.responseJSON && err.responseJSON.error) {
         new Error(err.responseJSON.error);
       }
@@ -99,8 +100,8 @@ export default class List {
    * Render component
    */
   render() {
-    List.addBoardData();
     elements.devLists.appendChild(this.cache.component); 
+    List.addBoardData();
   }
 
   /**
@@ -157,7 +158,7 @@ export default class List {
     const list = this.cache.component.querySelector('.list__body')
     const template = `
       <!-- Card -->
-      <div class="list__card">
+      <div class="list__card" data-list="${data.idList}">
         <div class="list__card__title">
           <a href="${data.shortUrl}">${data.name}</a>
         </div>
@@ -257,7 +258,7 @@ export default class List {
             resolve();
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
             reject();
           });
       } else {
@@ -273,16 +274,27 @@ export default class List {
   static addBoardData() {
     const cards = document.querySelectorAll('.list__card');
     Array.from(cards).forEach((card) => {
-      // Replace board ID with board name
+      // Add board and list names
       const boardID = card.querySelector('.list__card__boardID'); 
-      if (boards[boardID.innerText] && boards[boardID.innerText].name !== boardID.innerText) {
-        const { innerText } = boardID;
-        boardID.innerText = boards[innerText].name;
-        boardID.href = boards[innerText].url;
+      const boardData = boards[boardID.innerText];
+      if (boardData) {
+        // Replace board ID with board name
+        if (boardData.name !== boardID.innerText) {
+          const { innerText } = boardID;
+          boardID.innerText = boards[innerText].name;
+          boardID.href = boards[innerText].url;
+        }
+ 
+        // Replace list ID with list name
+        const listID = card.getAttribute('data-list');
+        if (boardData.lists) {
+          const listData = boardData.lists.filter(data => data.id === listID);
+          if (listData && listData[0]) {
+            const listName = listData[0].name.replace(/^\d+\.\s/, '');
+            card.setAttribute('data-list', listName);
+          }
+        }
       }
-
-      // Add list name
-      //boards[]
     });
   }
 }
