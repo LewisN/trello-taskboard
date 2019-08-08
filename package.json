@@ -1,7 +1,7 @@
 {
-  "name": "user-conversion-taskboards",
+  "name": "trello-taskboards",
   "version": "1.0.0",
-  "description": "Integrates with the Trello API to create an overview of everyone's workload",
+  "description": "Integrates with the Trello API to create an overview of a team's workload",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
