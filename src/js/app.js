@@ -4,14 +4,12 @@ import Loader from './components/Loader/Loader';
 import Header from './components/Header/Header';
 import List from './components/List/List';
 
-const { $ } = window;
 const loader = new Loader();
 const header = new Header();
 const controller = {
   init: () => {
     const cookie = getCookie('taskboard_view');
     const value = cookie ? cookie : 'All';
-    $('#change-board').val(value);
     controller.updateView(value);
   },
 
@@ -19,7 +17,8 @@ const controller = {
    * @param {string} viewName
    */
   updateView: (viewName) => {
-    $('#dev-lists').empty();
+    // Empty container
+    document.querySelector('#dev-lists').innerHTML = '';
     
     // Repopulate with new user group
     const usernames = teams[viewName];
