@@ -10,6 +10,6 @@ This is particularly useful if you are involved in a large team and want to see 
 You can customise users and teams by changing the files in _src/js/data_
 
 # Instructions #
-Clone repository
-Run `npm start`
-Authenticate with your own Trello account
+1. Clone repository 
+2. Run `npm start` 
+3. Authenticate with your own Trello account 
