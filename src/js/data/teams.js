@@ -62,7 +62,6 @@ const teams = {
     'adamuc',
     'robertuc',
     'joegill19',
-    'amy31029358',
     'gracedean6',
     'radekloucka',
   ],
