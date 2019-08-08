@@ -56,6 +56,6 @@ export default class Header {
   updateTitle(newTitle) {
     const { component } = this.cache;
     component.querySelector('.header__title').innerText = `${newTitle} Taskboard`;
-    document.querySelector('title').innerText = `${newTitle} Taskboard - User Conversion`;
+    document.querySelector('title').innerText = `${newTitle} Taskboard`;
   }
 }
