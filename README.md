@@ -7,4 +7,9 @@ This app provides you with a full view for an entire team on Trello, clearly sho
 
 This is particularly useful if you are involved in a large team and want to see everyone's workload at a glance as Tello currently only allows you to view the cards assigned to one user at a time.
 
-Customise users and teams by changing the files in _src/js/data_
+You can customise users and teams by changing the files in _src/js/data_
+
+# Instructions #
+Clone repository
+Run `npm start`
+Authenticate with your own Trello account
