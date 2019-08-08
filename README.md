@@ -1,6 +1,6 @@
 # Trello Taskboards
 
-![App demo](https://i.ibb.co/wrVVpZ9/Trello-Taskboards-Compressed-Mega.gif)
+![App demo](./demo/demo.gif)
 
 
 This app provides you with a full view for an entire team on Trello, clearly showing which users are in the team and which cards are assigned to those users. You can also add multiple teams and switch between them in-app.
