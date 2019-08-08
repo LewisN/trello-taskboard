@@ -25,9 +25,12 @@ export default class List {
     }
     const init = () => {
       this.create();
-      this.cache.userData.cards.forEach((card) => {
-        this.addCard(card);
-      });
+      const { cards } = this.cache.userData;
+      if (cards) {
+        cards.forEach((card) => {
+          this.addCard(card);
+        });
+      }
       this.render();
     };
     const error = (err) => {
@@ -79,7 +82,7 @@ export default class List {
     element.className = 'list';
     element.innerHTML = `
       <div class="list__head">
-        <div class="list__avatar">${memberObject.avatarHash ? `<img src="https://trello-avatars.s3.amazonaws.com/${memberObject.avatarHash}/50.png"/>` : ''}</div>
+        <div class="list__avatar">${memberObject && memberObject.avatarHash ? `<img src="https://trello-avatars.s3.amazonaws.com/${memberObject.avatarHash}/50.png"/>` : ''}</div>
         <div class="list__nameBlock">
           <div class="list__name">${name}</div>
           <div class="list__discipline">${discipline}</div>
@@ -88,7 +91,7 @@ export default class List {
       </div>
       <div class="list__body">
         <div class="list__card-count">
-          <em>${cards.length}</em> <span>${(cards.length === 1 ? 'card' : 'cards')}</span>
+          <em>${cards && cards.length ? cards.length : 0}</em> <span>${(cards && cards.length === 1 ? 'card' : 'cards')}</span>
         </div>
       </div>
     `;
@@ -212,19 +215,22 @@ export default class List {
   loadNewBoards() {
     return new Promise((resolve, reject) => {
       const { username } = this.cache;
+      const cards = users[username].cards;
 
       // Push any new board IDs (not cached or in active request) to boardApiRequests.pending
-      users[username].cards.forEach((card) => {
-        const id = card.idBoard;
-        const boardCached = Object.prototype.hasOwnProperty.call(boards, id);
-        const requestAlreadySent = boardApiRequests.active.indexOf(id) > -1;
-        if (!boardCached && !requestAlreadySent) {
-          boards[id] = {
-            name: id,
-          };
-          boardApiRequests.pending.push(id);
-        }
-      });
+      if (cards) {
+        cards.forEach((card) => {
+          const id = card.idBoard;
+          const boardCached = Object.prototype.hasOwnProperty.call(boards, id);
+          const requestAlreadySent = boardApiRequests.active.indexOf(id) > -1;
+          if (!boardCached && !requestAlreadySent) {
+            boards[id] = {
+              name: id,
+            };
+            boardApiRequests.pending.push(id);
+          }
+        });
+      }
 
       if (boardApiRequests.pending.length) {
         boardApiRequests.active = boardApiRequests.pending;
